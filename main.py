@@ -6,7 +6,7 @@ import torch.nn.parallel
 import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
-import opts_egtea as opts
+import opts_epic as opts
 
 import time
 import h5py
@@ -31,7 +31,7 @@ def setup_multi_gpu():
 
 def train_one_epoch(opt, model, train_dataset, optimizer, warmup=False):
     # Increase num_workers for multi-GPU setup
-    num_workers = min(0, os.cpu_count())
+    num_workers = min(8, os.cpu_count())
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                 batch_size=opt['batch_size'], shuffle=True,
                                                 num_workers=num_workers, pin_memory=True,
@@ -189,7 +189,7 @@ def train(opt):
 
 def eval_frame(opt, model, dataset):
     # Increase num_workers for better data loading
-    num_workers = min(0, os.cpu_count())
+    num_workers = min(8, os.cpu_count())
     test_loader = torch.utils.data.DataLoader(dataset,
                                                 batch_size=opt['batch_size'], shuffle=False,
                                                 num_workers=num_workers, pin_memory=True,

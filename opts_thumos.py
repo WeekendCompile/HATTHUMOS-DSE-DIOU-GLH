@@ -68,6 +68,10 @@ def parse_opt():
         '--exp',
         type=str,
         default="")
+    parser.add_argument(
+        '--split',
+        type=str,
+        default="1")
         
     #network
     parser.add_argument(
@@ -99,7 +103,37 @@ def parse_opt():
         '--dec_head',
         type=int,
         default=4)
-        
+    parser.add_argument(
+        '--DSE',
+        default=False,
+        action='store_true',
+        help='Enable Dual-Scale Temporal Encoder. When omitted, MyNet runs as the baseline without DSE.')
+    parser.add_argument(
+        '--diou',
+        default=False,
+        action='store_true',
+        help='Add DIoU loss on the regressed (start, end) intervals as instance-level supervision.')
+    parser.add_argument(
+        '--diou_weight',
+        type=float,
+        default=1.0,
+        help='Coefficient for the DIoU loss when --diou is enabled.')
+    parser.add_argument(
+        '--GLH',
+        default=False,
+        action='store_true',
+        help='Enable Gaussian Latent History cross-attention after the encoder.')
+    parser.add_argument(
+        '--glh_gaussians',
+        type=int,
+        default=8,
+        help='Number of Gaussian primitives K in the GLH bank.')
+    parser.add_argument(
+        '--glh_kl_weight',
+        type=float,
+        default=1e-4,
+        help='Weight for the GLH KL regularization term.')
+
     # Training settings
     parser.add_argument(
         '--batch_size',
